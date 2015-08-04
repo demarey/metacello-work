@@ -7,7 +7,7 @@ extractRepositoryFrom: zipFile to: directory
     err := FileStream forceNewFileNamed: '/tmp/zip.err'.
     errorMessage := ''.
     [ 
-    proc := OSProcess thisOSProcess
+    proc := #OSProcess asClass thisOSProcess
         forkJob: '/usr/bin/unzip'
         arguments:
             {'-u'.
@@ -27,6 +27,6 @@ extractRepositoryFrom: zipFile to: directory
             (errorMessage := fileStream contentsOfEntireFile) notEmpty
                 ifTrue: [ self error: 'unzip failure: ' , errorMessage printString ]
                 ifFalse: [
-                    (FileDirectory on: '/tmp')
+                    (#FileDirectory asClass on: '/tmp')
                         deleteFileNamed: zipFile;
                         deleteFileNamed: (self downloadErrorFileNameFor: zipFile) ] ]
